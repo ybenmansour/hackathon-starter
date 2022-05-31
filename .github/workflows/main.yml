@@ -5,8 +5,6 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -23,11 +21,33 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 2.0.0
+          
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # Runs a single command using the runners shell
-      - name: run script create_ec2_jenkins.sh
-        run:  |
-         chmod +x ./.github/workflows/CICD/create_ec2_jenkins.sh
-         ./.github/workflows/CICD/create_ec2_jenkins.sh
-        shell: bash
+      - name: Initialize Terraform
+        run: |
+          cd /terraform/terraform init -input=false   
+      - name: Plan Terraform
+        id: plan
+        continue-on-error: true
+        run: |
+          cd /terraform/terraform plan -input=false -no-color -out=tfplan \
+          && terraform show -no-color tfplan    
+            - name: Plan Terraform
+      - name: Apply Terraform 
+        id: apply
+        continue-on-error: true
+        run: |
+          cd /terraform/terraform apply
