@@ -29,5 +29,5 @@ jobs:
       - name: run script create_ec2_jenkins.sh
         run:  |
          chmod +x ./CICD/scripts/create_ec2_jenkins.sh
-         ./public/CICD/create_ec2_jenkins.sh
+         ./CICD/create_ec2_jenkins.sh
         shell: bash
