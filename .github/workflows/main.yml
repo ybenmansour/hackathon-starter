@@ -28,6 +28,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: run script create_ec2_jenkins.sh
         run:  |
-         chmod +x ./CICD/create_ec2_jenkins.sh
-         ./CICD/create_ec2_jenkins.sh
+         chmod +x ./.github/workflows/CICD/create_ec2_jenkins.sh
+         ./.github/workflows/CICD/create_ec2_jenkins.sh
         shell: bash
