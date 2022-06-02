@@ -50,24 +50,16 @@ jobs:
       
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
-        run: |
-              terraform apply -auto-approve
-              #var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-              #echo "::set-env name=var_ec2_jenkins_server::$var_ec2_jenkins_server"
-              echo "var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)" >> $GITHUB_ENV
-      
-      - name: Execute ping
-        run: |
-          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          curl -I www.google.es
-          sleep 20 
-          
+        run: terraform apply -auto-approve
+              
       - name: Execute jenkins pipeline
         run: |
-          #ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          #ec2_jenkins_server=35.181.56.161
-          echo "Ejecutando el pipeline: " $ec2_jenkins_server
+          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+          sleep 5
           curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$var_ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD | grep CLI 
       
+      - name: Terraform destroy 
+        run: terraform destroy -auto-approve
+        
       - run: echo "Finalizando el pipeline"
       
