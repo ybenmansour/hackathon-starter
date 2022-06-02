@@ -54,7 +54,9 @@ jobs:
       
       - name: Execute ping
         run: |
-          ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+          ping 15.236.18.82 -c 2
+          curl $(terraform output -raw ec2_jenkins_server)
           ping $ec2_jenkins_server -c 4
           
       - name: Execute jenkins pipeline
@@ -62,7 +64,7 @@ jobs:
           #ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
           #ec2_jenkins_server=35.181.56.161
           echo "Ejecutando el pipeline: " $ec2_jenkins_server
-          curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD | grep CLI 
+          curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$var_ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD | grep CLI 
       
       - run: echo "Finalizando el pipeline"
       
