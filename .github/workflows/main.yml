@@ -25,7 +25,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Initialize Terraform
-        run: |
-             curl -o http://www.google.es
-             curl -I http://${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASS }}@13.37.229.192:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
+        run: curl -I http://cicdUser:cicdUserPass@13.37.229.192:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
+      - name: End Terraform
+        run: echo "adios"
       
