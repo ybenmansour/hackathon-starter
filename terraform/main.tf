@@ -9,7 +9,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-3"
 }
 
 data "aws_ami" "ubuntu" {
@@ -38,8 +38,8 @@ resource "aws_security_group" "jenkins_group" {
   description = "Allowjenkins port inbound traffic"
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -47,6 +47,13 @@ resource "aws_security_group" "jenkins_group" {
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -60,8 +67,8 @@ resource "aws_security_group" "jenkins_group" {
 }
 
 resource "aws_instance" "jenkins_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  ami           = "ami-079187a7f3d50ebad"
+  instance_type = "t2.medium"
   vpc_security_group_ids = [aws_security_group.jenkins_group.id]
 
 
