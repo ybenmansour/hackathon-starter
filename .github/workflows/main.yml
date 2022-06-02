@@ -62,7 +62,7 @@ jobs:
           jenkins-server: http://$ec2_jenkins_server:8080/
           jenkins-job: "TFM NodeJS app pipeline"
           jenkins-username: ${{ secrets.JENKINS_USER }}
-          jenkins-pat: TFM_CICD
+          jenkins-pat: ${{ secrets.JENKINS_PASS }}
           poll-time: 10
           timeout-value: 600 
           verbose: true
