@@ -59,8 +59,5 @@ jobs:
           echo http:// ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} @$ec2_jenkins_server :8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
           curl -I http://${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }}@$ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
       
-      - name: Destroy Terraform 
-        run: terraform destroy -auto-approve
-        
       - run: echo "Finalizando el pipeline"
       
