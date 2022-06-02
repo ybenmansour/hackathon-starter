@@ -60,7 +60,7 @@ jobs:
         run: |
           var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
           curl -I www.google.es
-          #ping $var_ec2_jenkins_server -c 4
+          sleep 20 
           
       - name: Execute jenkins pipeline
         run: |
