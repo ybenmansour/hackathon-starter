@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 data "aws_security_group" "jenkins_server_group" {
-  id ="sg-000312648cb099634"
+  id ="sg-090df9b3d5604bae1"
 }
 
 resource "aws_instance" "jenkins_server" {
