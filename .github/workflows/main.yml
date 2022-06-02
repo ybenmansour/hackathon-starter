@@ -31,7 +31,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.0.4
           terraform_wrapper: false
           
       - name: Configure AWS Credentials
@@ -56,7 +55,7 @@ jobs:
       - name: Execute jenkins pipeline
         run: |
           echo "Ejecutando el pipeline"
-          ec2_jenkins_server = $(terraform output ec2_jenkins_server)
+          ec2_jenkins_server=$(terraform output ec2_jenkins_server)
           echo $ec2_jenkins_server
           curl $ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/buildWithParameters --user cicdUser:TFM_CICD 
       - run: echo "Finalizando el pipeline"
