@@ -52,8 +52,9 @@ jobs:
       - name: Apply Terraform 
         run: |
               terraform apply -auto-approve
-              var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-              echo "::set-env name=var_ec2_jenkins_server::$var_ec2_jenkins_server"
+              #var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+              #echo "::set-env name=var_ec2_jenkins_server::$var_ec2_jenkins_server"
+              echo "var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)" >> $GITHUB_ENV
       
       - name: Execute ping
         run: |
