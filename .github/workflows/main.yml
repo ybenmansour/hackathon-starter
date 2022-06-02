@@ -51,13 +51,21 @@ jobs:
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
         run: terraform apply -auto-approve
-   
+      
       - name: Execute jenkins pipeline
         run: |
           ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          #ec2_jenkins_server=35.181.56.161
-          echo "Ejecutando el pipeline: " $ec2_jenkins_server
-          curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD | grep CLI 
+          
+      - name: Trigger jenkins job
+        uses: mickeygoussetorg/trigger-jenkins-job@v1
+        with:
+          jenkins-server: http://$ec2_jenkins_server:8080/
+          jenkins-job: "TFM NodeJS app pipeline"
+          jenkins-username: ${{ secrets.JENKINS_USER }}
+          jenkins-pat: TFM_CICD
+          poll-time: 10
+          timeout-value: 600 
+          verbose: true
       
       - run: echo "Finalizando el pipeline"
       
