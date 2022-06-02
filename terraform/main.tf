@@ -67,7 +67,7 @@ resource "aws_security_group" "jenkins_group" {
 }
 
 resource "aws_instance" "jenkins_server" {
-  ami           = "ami-079187a7f3d50ebad"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.medium"
   vpc_security_group_ids = [aws_security_group.jenkins_group.id]
 
