@@ -24,6 +24,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        
       - name: Initialize Terraform
         run: curl -I http://cicdUser:cicdUserPass@13.37.229.192:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
       - name: End Terraform
