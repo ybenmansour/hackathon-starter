@@ -50,14 +50,15 @@ jobs:
       
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
-        run: terraform apply -auto-approve
+        run: |
+              terraform apply -auto-approve
+              var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+              echo "::set-env name=var_ec2_jenkins_server::$var_ec2_jenkins_server"
       
       - name: Execute ping
         run: |
           var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          ping 15.236.18.82 -c 2
-          curl $(terraform output -raw ec2_jenkins_server)
-          ping $ec2_jenkins_server -c 4
+          ping $var_ec2_jenkins_server -c 4
           
       - name: Execute jenkins pipeline
         run: |
