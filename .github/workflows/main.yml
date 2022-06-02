@@ -59,7 +59,7 @@ jobs:
       - name: Execute ping
         run: |
           var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          curl -I www.google.es -c 4
+          curl -I www.google.es
           #ping $var_ec2_jenkins_server -c 4
           
       - name: Execute jenkins pipeline
