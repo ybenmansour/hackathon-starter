@@ -9,7 +9,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-west-3"
+  region = "eu-west-3"
 }
 
 data "aws_ami" "ubuntu" {
