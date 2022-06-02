@@ -56,8 +56,9 @@ jobs:
       - name: Execute jenkins pipeline
         run: |
           ec2_jenkins_server=$(terraform output ec2_jenkins_server)
-          echo "Ejecutando el pipeline: "$ec2_jenkins_server
-          ec2_jenkins_server=$(terraform output ec2_jenkins_server)
-          curl -I http://${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASS }}@$ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
+          echo "Ejecutando el pipeline: " $ec2_jenkins_server
+         
+          curl -I http:// ${{ format('{0}:{1}@{2}', secrets.JENKINS_USER, secrets.JENKINS_PASS, $ec2_jenkins_server) }}:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD
+          
       - run: echo "Finalizando el pipeline"
       
