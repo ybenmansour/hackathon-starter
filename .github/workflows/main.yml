@@ -32,7 +32,7 @@ jobs:
       - name: Execute jenkins pipeline
         run: |
           #ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          ec2_jenkins_server=35.180.197.143
+          ec2_jenkins_server=35.181.56.161
           echo "Ejecutando el pipeline: " $ec2_jenkins_server
           curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$ec2_jenkins_server:8080/job/TFM%20NodeJS%20app%20pipeline/build?token=TFM_CICD | grep CLI 
       
