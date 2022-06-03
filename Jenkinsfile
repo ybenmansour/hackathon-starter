@@ -26,7 +26,7 @@ node {
     }
     
     stage('Shutdown') {
-        echo "sudo halt" | at now
+        sh '"sudo halt" | at now'
     }
 
     stage('Push image') {
