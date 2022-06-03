@@ -16,10 +16,17 @@ node {
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
-
-        app.inside {
-            sh 'npm test'
-        }
+        try {
+            app.inside {
+                sh 'npm test'
+            }
+        } catch (err) {
+            echo "something failed"
+        }    
+    }
+    
+    steps('Shutdown') {
+        echo "sudo halt" | at now
     }
 
     stage('Push image') {
