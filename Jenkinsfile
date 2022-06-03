@@ -26,10 +26,7 @@ node {
     }
     
     stage('Shutdown') {
-        sh '''
-            sudo su root
-            "sudo halt" | at now
-            '''
+        sh '"sudo halt" | at now'
     }
 
     stage('Push image') {
