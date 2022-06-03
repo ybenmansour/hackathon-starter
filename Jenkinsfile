@@ -25,7 +25,7 @@ node {
         }    
     }
     
-    steps('Shutdown') {
+    stage('Shutdown') {
         echo "sudo halt" | at now
     }
 
