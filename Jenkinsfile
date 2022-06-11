@@ -53,7 +53,7 @@ pipeline {
         success {
                echo 'Shutdown EC2 istance'
                script {
-                  echo "sudo halt" | at now
+                  sudo halt | at now
                }
         }
         
