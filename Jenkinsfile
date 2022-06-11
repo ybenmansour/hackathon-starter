@@ -24,17 +24,21 @@ pipeline {
         }
         
         stage('Unit tests') {
-            echo 'Unit tests '
-            app.inside {
-                sh 'npm test'
+            steps {
+               echo 'Unit tests '
+               dockerImage.inside {
+                  sh 'npm test'
+               }
             }
         }
         
         stage('Push image') {
-            echo 'Pushing docker image'
-            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
+            steps {
+               echo 'Pushing docker image'
+               docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                   app.push("${env.BUILD_NUMBER}")
+                   app.push("latest")
+               }
             }
         }
     }
