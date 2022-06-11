@@ -1,42 +1,52 @@
-node {
-    def app
-
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-        checkout scm
+pipeline {
+    agent any
+    
+    environment {
+        imagename = "ybenmansour/hackathon-starter"
     }
-
-    stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
-        app = docker.build("ybenmansour/hackathon-starter")
-    }
-
-    stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
-        try {
+    
+    stages {
+        stage('Clone repository') {
+            steps {
+                echo 'Cloning repository'
+                git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
+            }
+        }
+        stage('Build') {
+            steps {
+               echo 'Building docker image'
+               app = docker.build("ybenmansour/hackathon-starter")
+            }
+        }
+        stage('Unit tests') {
+            echo 'Unit tests '
             app.inside {
                 sh 'npm test'
             }
-        } catch (err) {
-            echo "something failed"
-        }    
-    }
-    
-    stage('Shutdown') {
-        sh '"sudo halt" | at now'
-    }
-
-    stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+        
+        }
+        stage('Push image') {
+            echo 'Pushing docker image'
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+        }
+    }
+    }
+    post {
+        success {
+            echo 'Shutdown EC2 istance'
+            sh '"sudo halt" | at now'
+            
+        }
+        failure {
+            echo 'Sending email'
+            mail to: "youssefbenmansour@gmail.com",
+            subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+            body: "${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
+            echo 'Shutdown EC2 istance'
+            sh '"sudo halt" | at now'
+            
         }
     }
 }
