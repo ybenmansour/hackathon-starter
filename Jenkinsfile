@@ -1,10 +1,11 @@
 pipeline {
-    agent any
-    
+   
     environment {
         imagename = "ybenmansour/hackathon-starter"
         dockerImage = ''
     }
+    
+    agent any
     
     stages {
         
@@ -32,8 +33,9 @@ pipeline {
         stage('Push image') {
             echo 'Pushing docker image'
             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
+            }
         }
     }
     
@@ -41,8 +43,8 @@ pipeline {
         success {
             echo 'Shutdown EC2 istance'
             sh '"sudo halt" | at now'
-            
         }
+        
         failure {
             echo 'Sending email'
             mail to: "youssefbenmansour@gmail.com",
@@ -50,7 +52,6 @@ pipeline {
             body: "${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
             echo 'Shutdown EC2 istance'
             sh '"sudo halt" | at now'
-            
         }
     }
 }
