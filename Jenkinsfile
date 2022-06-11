@@ -65,7 +65,6 @@ pipeline {
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
             body: "${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
             echo 'Shutdown EC2 istance'
-            echo "sudo halt" | at now
         }
     }
 }
