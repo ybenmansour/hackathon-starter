@@ -12,26 +12,26 @@ pipeline {
         stage('Clone repository') {
             steps {
                 echo 'Cloning repository'
-                git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
+                /*git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])*/
             }
         }
         
         stage('Build') {
             steps {
                echo 'Building docker image'
-               script {
+              /* script {
                   dockerImage = docker.build imagename
-               }
+               }*/
             }
         }
         
         stage('Unit tests') {
             steps {
                echo 'Unit tests '
-               script {
+              /* script {
                   dockerImage.inside {
                      sh 'npm test'
-                  }
+                  }*/
                }
             }
         }
@@ -39,12 +39,12 @@ pipeline {
         stage('Push image') {
             steps {
                echo 'Pushing docker image'
-               script {
+               /*script {
                   docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                       app.push("${env.BUILD_NUMBER}")
                       app.push("latest")
                   }
-               }
+               }*/
             }
         }
     }
