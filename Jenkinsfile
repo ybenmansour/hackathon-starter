@@ -51,12 +51,10 @@ pipeline {
     
     post {
         success {
-           steps {
                echo 'Shutdown EC2 istance'
                script {
                   sh '"sudo halt" | at now'
                }
-           }
         }
         
         failure {
