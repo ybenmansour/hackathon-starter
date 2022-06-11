@@ -19,15 +19,19 @@ pipeline {
         stage('Build') {
             steps {
                echo 'Building docker image'
-               dockerImage = docker.build imagename
+               script {
+                  dockerImage = docker.build imagename
+               }
             }
         }
         
         stage('Unit tests') {
             steps {
                echo 'Unit tests '
-               dockerImage.inside {
-                  sh 'npm test'
+               script {
+                  dockerImage.inside {
+                     sh 'npm test'
+                  }
                }
             }
         }
@@ -35,9 +39,11 @@ pipeline {
         stage('Push image') {
             steps {
                echo 'Pushing docker image'
-               docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                   app.push("${env.BUILD_NUMBER}")
-                   app.push("latest")
+               script {
+                  docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                      app.push("${env.BUILD_NUMBER}")
+                     app.push("latest")
+                  }
                }
             }
         }
