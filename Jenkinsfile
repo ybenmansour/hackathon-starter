@@ -3,28 +3,32 @@ pipeline {
     
     environment {
         imagename = "ybenmansour/hackathon-starter"
+        dockerImage = ''
     }
     
     stages {
+        
         stage('Clone repository') {
             steps {
                 echo 'Cloning repository'
                 git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
             }
         }
+        
         stage('Build') {
             steps {
                echo 'Building docker image'
-               app = docker.build("ybenmansour/hackathon-starter")
+               dockerImage = docker.build imagename
             }
         }
+        
         stage('Unit tests') {
             echo 'Unit tests '
             app.inside {
                 sh 'npm test'
             }
-        
         }
+        
         stage('Push image') {
             echo 'Pushing docker image'
             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
@@ -32,7 +36,7 @@ pipeline {
             app.push("latest")
         }
     }
-    }
+    
     post {
         success {
             echo 'Shutdown EC2 istance'
