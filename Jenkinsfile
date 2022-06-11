@@ -53,7 +53,7 @@ pipeline {
         success {
                echo 'Shutdown EC2 istance'
                script {
-                  sh 'sudo shutdown -P now'
+                  sh 'sudo poweroff'
                }
         }
         
