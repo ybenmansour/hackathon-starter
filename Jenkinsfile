@@ -31,8 +31,8 @@ pipeline {
               /* script {
                   dockerImage.inside {
                      sh 'npm test'
-                  }*/
-               }
+                  }
+               }*/
             }
         }
         
