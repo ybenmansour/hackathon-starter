@@ -42,7 +42,7 @@ pipeline {
                script {
                   docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                       app.push("${env.BUILD_NUMBER}")
-                     app.push("latest")
+                      app.push("latest")
                   }
                }
             }
@@ -52,7 +52,7 @@ pipeline {
     post {
         success {
             echo 'Shutdown EC2 istance'
-            sh '"sudo halt" | at now'
+            echo "sudo halt" | at now
         }
         
         failure {
@@ -61,7 +61,7 @@ pipeline {
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
             body: "${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
             echo 'Shutdown EC2 istance'
-            sh '"sudo halt" | at now'
+            echo "sudo halt" | at now
         }
     }
 }
