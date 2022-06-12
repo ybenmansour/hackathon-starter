@@ -2,13 +2,6 @@ FROM node:lts-alpine3.16 AS base
 WORKDIR /usr/src/app
 COPY package*.json ./
 
-FROM node:lts-alpine3.16 as builder
-WORKDIR /usr/src/app
-COPY package* ./
-COPY src/ src/
-RUN ["npm", "install"]
-
-
 FROM base AS test
 RUN npm ci
 COPY . .
@@ -16,7 +9,7 @@ RUN ["npm", "test"]
 
 
 FROM sonarqube:latest as sonarqube
-COPY --from=builder /usr/src/app/src /root/src
+COPY --from=base /usr/src/app/ /root/src
 RUN npm install sonarqube-scanner --save-dev
 RUN ["npm", "sonar"]
 
