@@ -24,6 +24,15 @@ pipeline {
                }
             }
         }
+       
+       stage('Sonar Scanner') {
+            steps {
+               echo 'Sonar Scanner'
+               script {
+                     sh 'docker build --targetsonarqube -t scanner-node:latest'            
+               }
+            }
+        }
         
         stage('Build') {
             steps {
@@ -40,8 +49,8 @@ pipeline {
                echo 'Pushing docker image'
                script {
                   docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                      app.push("${env.BUILD_NUMBER}")
-                      app.push("latest")
+                      dockerImage.push("${env.BUILD_NUMBER}")
+                      dockerImage.push("latest")
                   }
                }
             }
