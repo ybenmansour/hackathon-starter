@@ -24,18 +24,6 @@ pipeline {
                }
             }
         }
-       
-        stage('Sonar scanner') {
-            steps {
-               echo 'Sonar scanner'
-               script {
-                     sh '''docker create --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
-                           npm install sonarqube-scanner --save-dev
-                           npm run sonar
-                     '''            
-               }
-            }
-        }
         
         stage('Build') {
             steps {
