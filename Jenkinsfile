@@ -29,7 +29,7 @@ pipeline {
             steps {
                echo 'Sonar Scanner'
                script {
-                     sh 'docker build --target sonarqube -t scanner-node:latest'            
+                     sh 'docker build --target sonarqube -t scanner-node:latest .'            
                }
             }
         }
