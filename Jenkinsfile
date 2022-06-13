@@ -34,7 +34,7 @@ pipeline {
                script {
                       sh '''
                            export DOCKER_BUILDKIT=1
-                           docker-compose build -f docker-compose-sonar.yml
+                           docker-compose -f docker-compose-sonar.yml build
                       '''     
                }
             }
@@ -44,6 +44,7 @@ pipeline {
             steps {
                echo 'Building docker image'
                 script {
+                   sh 'export DOCKER_BUILDKIT=1'
                   dockerImage = docker.build imagename
                }
             }
