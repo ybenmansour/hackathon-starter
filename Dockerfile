@@ -9,6 +9,7 @@ CMD ["npm", "test"]
 
 
 FROM base as sonarscanner
+RUN npm ci
 RUN npm install --save-dev sonarqube-scanner
 COPY . .
 CMD ["npm","run", "sonar"]
