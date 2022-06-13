@@ -5,13 +5,13 @@ COPY package*.json ./
 FROM base AS test
 RUN npm ci
 COPY . .
-RUN ["npm", "test"]
+CMD ["npm", "test"]
 
 
 FROM base as sonarscanner
 RUN npm i -D sonarqube-scanner -save-dev
 COPY . .
-RUN npm run sonar
+CMD ["npm","run sonar"]
 
 
 FROM base AS production
