@@ -10,6 +10,7 @@ RUN ["npm", "test"]
 
 FROM base as sonarscanner
 RUN npm install sonarqube-scanner --save-dev
+COPY . .
 RUN npm run sonar
 
 
