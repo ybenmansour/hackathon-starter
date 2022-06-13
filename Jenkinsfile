@@ -34,8 +34,7 @@ pipeline {
                script {
                       sh '''
                            docker run --name sonarqube -d -p 9000:9000 sonarqube
-                           docker run --rm -e SONAR_HOST_URL="http://sonarqube:9000" \
-                           -v "https://github.com/ybenmansour/hackathon-starter.git:/usr/src" sonarsource/sonar-scanner-cli
+                           docker build --target sonarscanner .
                       '''     
                }
             }
