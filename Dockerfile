@@ -10,7 +10,7 @@ RUN ["npm", "test"]
 
 FROM base as sonarscanner
 RUN npm i sonar-scanner --save-dev
-RUN apt-get update && apt-get install openjdk-8-jdk && java -version
+RUN apk add openjdk8-jre && java -version
 COPY . .
 RUN npm run sonar-scanner
 
