@@ -3,7 +3,7 @@ pipeline {
     environment {
         imagename = "ybenmansour/hackathon-starter"
         dockerImage = ''
-        scannerHome = tool 'SonarQubeScanner'
+        scannerHome = tool 'SonarScanner'
     }
     
     agent any
