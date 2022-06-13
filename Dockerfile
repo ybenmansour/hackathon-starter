@@ -9,7 +9,7 @@ RUN ["npm", "test"]
 
 
 FROM base as sonarscanner
-RUN npm i sonar-scanner --save-dev
+RUN npm i -D sonarqube-scanner -save-dev
 RUN apk add openjdk8-jre && java -version
 COPY . .
 RUN npm run sonar-scanner
