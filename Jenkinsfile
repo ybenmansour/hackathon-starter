@@ -32,7 +32,10 @@ pipeline {
             steps {
                echo 'Sonar Scanner'
                script {
-                      sh 'docker-compose -f docker-compose-sonar.yml build'     
+                      sh '''
+                           docker run --name sonarqube -d -p 9000:9000 sonarqube
+                           sonar-scanner -Dsonar.projectKey=hackathon-starter  -Dsonar.sources=.  -Dsonar.host.url=http://sonarqube:9000
+                      '''     
                }
             }
         }
