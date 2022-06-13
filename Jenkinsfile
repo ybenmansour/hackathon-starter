@@ -33,6 +33,7 @@ pipeline {
                echo 'Sonar Scanner'
                script {
                       sh '''
+                           export DOCKER_BUILDKIT=1
                            docker run --name sonarqube -d -p 9000:9000 sonarqube
                            docker build --target sonarscanner .
                       '''     
