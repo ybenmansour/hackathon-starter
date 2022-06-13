@@ -34,10 +34,10 @@ pipeline {
                script {
                       sh '''
                            export DOCKER_BUILDKIT=1
-                           docker network create "scanner-sq-network"
-                           docker run --network="scanner-sq-network" --name sonarqube -d -p 9000:9000 sonarqube
+                           docker network create scanner-sq-network
+                           docker run --network scanner-sq-network --name sonarqube -d -p 9000:9000 sonarqube
                            docker build -t sonarscanner --target sonarscanner .
-                           docker run --rm --network calc-sonar -v `pwd`:/usr/src sonarscanner
+                           docker run --rm --network scanner-sq-network -v `pwd`:/usr/src sonarscanner
                       '''     
                }
             }
