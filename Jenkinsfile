@@ -20,7 +20,10 @@ pipeline {
             steps {
                echo 'Unit tests'
                script {
-                     sh 'docker-compose build'            
+                   sh '''
+                     export DOCKER_BUILDKIT=1
+                     docker-compose build
+                   '''            
                }
             }
         }
