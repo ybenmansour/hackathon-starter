@@ -17,23 +17,61 @@ pipeline {
             }
         }
         
+       stage('Unit tests') {
+            steps {
+               echo 'Unit tests'
+               script {
+                   sh '''
+                     export DOCKER_BUILDKIT=1
+                     docker-compose build
+                   '''            
+               }
+            }
+       }
        
        stage('Sonar Scanner') {
             steps {
                echo 'Sonar Scanner'
+               sh '''
+                  export DOCKER_BUILDKIT=1
+                  docker run -d --rm --name sonarqube -p 9000:9000 --volume `pwd`/sonar/data:/opt/sonarqube/data --volume `pwd`/sonar/logs:/opt/sonarqube/logs sonarqube
+               '''
                withSonarQubeEnv('SonarQube') {
                   sh "${scannerHome}/bin/sonar-scanner -X"
                }
             }
        }
+       
+       stage('Build') {
+            steps {
+               echo 'Building docker image'
+                script {
+                   sh 'export DOCKER_BUILDKIT=1'
+                  dockerImage = docker.build imagename
+               }
+            }
+        }
+        
+
+       stage('Push image') {
+            steps {
+               echo 'Pushing docker image'
+               script {
+                  docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                      dockerImage.push("${env.BUILD_NUMBER}")
+                      dockerImage.push("latest")
+                  }
+               }
+            }
+        }
     }
     
     post {
         success {
                echo 'Shutdown EC2 istance'
-               script {
+               /*script {
                   sh 'sudo shutdown -h now'
-               }
+               }*/
         }
         
         failure {
