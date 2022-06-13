@@ -9,9 +9,9 @@ RUN ["npm", "test"]
 
 
 FROM base as sonarscanner
-RUN npm install -g sonarqube-scanner --save-dev
+RUN npm i sonar-scanner --save-dev
 COPY . .
-RUN npm run sonar
+RUN npm run sonar-scanner
 
 
 FROM base AS production
