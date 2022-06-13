@@ -8,9 +8,7 @@ COPY . .
 RUN ["npm", "test"]
 
 
-FROM sonarqube:latest as sonarqube
-COPY --from=base /usr/src/app/ /root/src
-RUN npm ci
+FROM base as sonarscanner
 RUN npm install sonarqube-scanner --save-dev
 RUN ["npm", "sonar"]
 
