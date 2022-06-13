@@ -11,7 +11,7 @@ RUN ["npm", "test"]
 FROM base as sonarscanner
 RUN npm install sonarqube-scanner --save-dev
 COPY . .
-RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' /bin/sonar-scanner/bin/sonar-scanner
+RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' "/root/.sonar/native-sonar-scanner/$(ls -1tr /root/.sonar/native-sonar-scanner/ | head -1)/bin/sonar-scanner"
 RUN npm run sonar
 
 
