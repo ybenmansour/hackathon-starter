@@ -37,7 +37,7 @@ pipeline {
                            docker network create scanner-sq-network
                            docker run --network scanner-sq-network --name sonarqube -d -p 9000:9000 sonarqube
                            docker build -t sonarscanner --target sonarscanner .
-                           docker run --rm --network scanner-sq-network -v `pwd`:/usr/src sonarscanner
+                           docker run --rm --network scanner-sq-network -v `pwd`:/usr/src sonarscanner:latest
                       '''     
                }
             }
