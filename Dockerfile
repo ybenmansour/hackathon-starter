@@ -12,7 +12,7 @@ FROM base as sonarscanner
 RUN npm i -D sonarqube-scanner -save-dev
 RUN apk add openjdk8-jre && java -version
 COPY . .
-RUN npm run sonar-scanner
+RUN npm run sonar
 
 
 FROM base AS production
