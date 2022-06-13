@@ -11,7 +11,7 @@ CMD ["npm", "test"]
 FROM base as sonarscanner
 RUN npm i -D sonarqube-scanner -save-dev
 COPY . .
-CMD ["npm","run sonar"]
+CMD ["npm","run", "sonar"]
 
 
 FROM base AS production
