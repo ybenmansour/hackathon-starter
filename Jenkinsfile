@@ -34,7 +34,8 @@ pipeline {
                script {
                       sh '''
                            export DOCKER_BUILDKIT=1
-                           docker-compose -f docker-compose-sonar.yml build
+                           docker run --name sonarqube -d -p 9000:9000 sonarqube
+                           docker build --target sonarscanner .
                       '''     
                }
             }
