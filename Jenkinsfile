@@ -3,6 +3,7 @@ pipeline {
     environment {
         imagename = "ybenmansour/hackathon-starter"
         dockerImage = ''
+        scannerHome = tool 'SonarQubeScanner'
     }
     
     agent any
@@ -20,9 +21,6 @@ pipeline {
        stage('Sonar Scanner') {
             steps {
                echo 'Sonar Scanner'
-               script {
-                  def scannerHome = tool 'SonarScanner'
-               }
                withSonarQubeEnv('SonarQube') {
                   sh "${scannerHome}/bin/sonar-scanner"
                }
