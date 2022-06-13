@@ -12,6 +12,7 @@ FROM base as sonarscanner
 RUN npm i -D sonarqube-scanner -save-dev
 RUN apk add openjdk8-jre && java -version
 COPY . .
+RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' /root/.sonar/native-sonar-scanner/sonar-scanner-4.5.0.2216-linux/bin/sonar-scanner
 RUN npm run sonar
 
 
