@@ -23,7 +23,7 @@ pipeline {
                echo 'Building docker image'
                 script {
                   sh 'export DOCKER_BUILDKIT=1'
-                  dockerImage = docker.build(imagename, "--target production .")
+                  dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
                }
             }
         }
