@@ -42,7 +42,7 @@ pipeline {
                   waitUntil {
                      script {
                         try {
-                           def response = sh 'curl -s -u admin:admin http://localhost:9000/api/system/health | jq -r  \'.health\''
+                           def response = $(curl -s -u admin:admin http://localhost:9000/api/system/health | jq -r  '.health')
                            echo response
                            return (response.status == 'GREEN')
                         } catch (exception) {
