@@ -4,6 +4,7 @@ pipeline {
         imagename = "ybenmansour/hackathon-starter"
         dockerImage = ''
         scannerHome = tool 'SonarScanner'
+        sonarQubeURL = "http://localhost:9000/"
     }
     
     agent any
@@ -35,15 +36,12 @@ pipeline {
                sh '''
                   docker network create scanner-sq-network
                   docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
-                  sleep 60
                '''
                
-               timeout(time: 25, unit: 'SECONDS') {
+               timeout(time: 2, unit: 'MINUTES') {
                   waitUntil {
                      script {
-                           final String url = "http://localhost:9000"
-                           final String response = sh(script: "curl curl -s -u admin:admin $url/api/system/health | jq -r  '.health'", returnStdout: true).trim()
-
+                           final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}/api/system/health | jq -r  '.health'", returnStdout: true).trim()
                            return (response == 'GREEN');
                      }
                   }
@@ -56,7 +54,12 @@ pipeline {
                sh '''
                   sleep 10
                '''
-               waitForQualityGate abortPipeline: false
+               script {
+                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
+                    if (response != 'OK') {
+                       abortPipeline: true
+                    }
+                }
             }
        }
        
