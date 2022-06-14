@@ -43,6 +43,7 @@ pipeline {
                      script {
                            sleep 20
                            final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/system/health | jq -r  '.health'", returnStdout: true).trim()
+                           echo response
                            return (response == 'GREEN');
                      }
                   }
@@ -57,6 +58,7 @@ pipeline {
                '''
                script {
                     final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
+                    echo response
                     if (response != 'OK') {
                        abortPipeline: true
                     }
