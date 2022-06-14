@@ -38,7 +38,7 @@ pipeline {
                   docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
                '''
                withSonarQubeEnv('SonarQube') {
-                  sh "sudo -u jenkins ${scannerHome}/bin/sonar-scanner -X"
+                  sh "${scannerHome}/bin/sonar-scanner -X"
                }
             }
        }
