@@ -41,7 +41,8 @@ pipeline {
                timeout(time: 2, unit: 'MINUTES') {
                   waitUntil {
                      script {
-                           final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}/api/system/health | jq -r  '.health'", returnStdout: true).trim()
+                           sleep 20
+                           final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/system/health | jq -r  '.health'", returnStdout: true).trim()
                            return (response == 'GREEN');
                      }
                   }
