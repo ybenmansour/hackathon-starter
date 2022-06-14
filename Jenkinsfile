@@ -44,7 +44,7 @@ pipeline {
                            final String url = "http://localhost:9000"
                            final String response = sh(script: "curl curl -s -u admin:admin $url/api/system/health | jq -r  '.health'", returnStdout: true).trim()
 
-                           echo response
+                           return (response == 'GREEN');
                      }
                   }
                }
