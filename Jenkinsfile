@@ -59,8 +59,8 @@ pipeline {
                script {
                     final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
                     echo response
-                    if (response != 'OK') {
-                       abortPipeline: true
+                    if (response == 'OK') {
+                       error "Pipeline aboratdo por fallos de calidad: "+ response
                     }
                 }
             }
@@ -70,8 +70,9 @@ pipeline {
             steps {
                echo 'Building docker image'
                 script {
-                   sh 'export DOCKER_BUILDKIT=1'
+                  sh 'export DOCKER_BUILDKIT=1'
                   dockerImage = docker.build imagename
+                  dockerImage = docker.build(imagename, "--target production .")
                }
             }
         }
