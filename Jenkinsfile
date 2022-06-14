@@ -36,6 +36,7 @@ pipeline {
                   export DOCKER_BUILDKIT=1
                   docker network create scanner-sq-network
                   docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
+                  sleep 20
                '''
                withSonarQubeEnv('SonarQube') {
                   sh "${scannerHome}/bin/sonar-scanner -X"
