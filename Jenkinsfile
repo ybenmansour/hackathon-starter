@@ -35,19 +35,16 @@ pipeline {
                sh '''
                   docker network create scanner-sq-network
                   docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
-                  sleep 10
+                  sleep 60
                '''
                
-               timeout(65) {
+               timeout(time: 25, unit: 'SECONDS') {
                   waitUntil {
                      script {
-                        try {
-                           def response = sh script: '$(curl -s -u admin:admin http://localhost:9000/api/system/health | jq -r  \'.health\')', returnStdout: true
+                           final String url = "http://localhost:9000"
+                           final String response = sh(script: "curl -s $url /api/system/health | jq -r  '.health'", returnStdout: true).trim()
+
                            echo response
-                           return (response.status == 'GREEN')
-                        } catch (exception) {
-                           return false
-                        }
                      }
                   }
                }
