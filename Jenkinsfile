@@ -33,16 +33,16 @@ pipeline {
             steps {
                echo 'Sonar Scanner'
                sh '''
-                  sleep 10
+                  sleep 30
                '''
                withSonarQubeEnv('SonarQube') {
                   sh "${scannerHome}/bin/sonar-scanner -X"
                }
                
-               def qualitygate = waitForQualityGate()
-               if (qualitygate.status != "OK") {
-                  error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-               }
+               sh '''
+                  sleep 10
+               '''
+               waitForQualityGate abortPipeline: false
             }
        }
        
