@@ -33,6 +33,8 @@ pipeline {
             steps {
                echo 'Sonar Scanner'
                sh '''
+                  docker network create scanner-sq-network
+                  docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
                   sleep 30
                '''
                withSonarQubeEnv('SonarQube') {
