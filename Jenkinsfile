@@ -27,6 +27,22 @@ pipeline {
                }
             }
         }
+       
+       stage('Sonar Scanner') {
+            steps {
+               
+               sh '''
+                  sleep 10
+               '''
+               script {
+                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
+                    echo response
+                    if (response != 'OK') {
+                       error "Pipeline aboratdo por fallos de calidad: "+ response
+                    }
+                }
+            }
+       }
         
 
        stage('Push image') {
