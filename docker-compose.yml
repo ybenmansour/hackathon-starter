@@ -12,7 +12,8 @@ services:
      - "8080:8080"
     environment:
        MONGODB_URI: mongodb://mongo:27017/test 
-       NODE_ENV: production     
+       NODE_ENV: production
+       MONGOMS_SYSTEM_BINARY: /usr/bin/mongod
     depends_on: 
      - mongo 
     volumes:
