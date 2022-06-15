@@ -22,7 +22,7 @@ pipeline {
             steps {
                echo 'Unit tests'
                script {
-                    dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
+                    dockerImage = docker.build(imagename, "-f Dockerfile.test .")
                     dockerImage.inside{
                         sh 'npm run test'
                     }
