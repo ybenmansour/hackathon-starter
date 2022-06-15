@@ -1,8 +1,5 @@
 version: '3.4'
 services:
-  mongo:
-    container_name: mongo
-    image: mongo
   web:
     build: 
       context: .
@@ -11,11 +8,8 @@ services:
     ports:
      - "8080:8080"
     environment:
-       MONGODB_URI: mongodb://mongo:27017/test 
        NODE_ENV: production
-       MONGOMS_SYSTEM_BINARY: /usr/bin/mongod
-    depends_on: 
-     - mongo 
+       MONGOMS_DEBUG:1
     volumes:
      - .:/starter
      - /starter/node_modules
