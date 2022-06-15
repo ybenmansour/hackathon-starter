@@ -4,4 +4,5 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 EXPOSE 8080
+ENV MONGOMS_DEBUG=1
 RUN ["npm", "test"]
