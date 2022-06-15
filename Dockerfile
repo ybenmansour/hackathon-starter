@@ -5,7 +5,7 @@ COPY package*.json ./
 FROM base AS test
 RUN npm ci
 COPY . .
-CMD ["npm", "test"]
+RUN ["npm", "test"]
 
 
 FROM base as sonarscanner
