@@ -24,7 +24,7 @@ pipeline {
                script {
                    sh '''
                      export DOCKER_BUILDKIT=1
-                     dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
+                     
                     '''   
                }
             }
