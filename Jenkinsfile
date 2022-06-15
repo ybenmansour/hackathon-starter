@@ -24,7 +24,8 @@ pipeline {
                script {
                    sh '''
                      export DOCKER_BUILDKIT=1
-                     docker-compose build
+                     dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
+                     docker run imagename npm run test
                    '''            
                }
             }
