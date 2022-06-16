@@ -15,8 +15,6 @@ const { google } = require('googleapis');
 const Quickbooks = require('node-quickbooks');
 const validator = require('validator');
 
-Quickbooks.setOauthVersion('2.0');
-
 /**
  * GET /api
  * List of API examples.
