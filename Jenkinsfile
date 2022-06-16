@@ -23,6 +23,7 @@ pipeline {
                echo 'Unit tests'
                script {
                     sh 'DOCKER_BUILDKIT=1 docker build --target export-test-results -f Dockerfile.test --output type=local,dest=results .' 
+                    archiveArtifacts artifacts: 'results/*.xml'
                }
             }
        }
