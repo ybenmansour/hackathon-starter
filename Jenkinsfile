@@ -48,6 +48,7 @@ pipeline {
             steps {
                echo 'Building docker image'
                 script {
+                  
                   dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
                }
             }
@@ -57,6 +58,7 @@ pipeline {
             steps {
                echo 'Pushing docker image'
                script {
+                  sh'docker logout'
                   docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                       dockerImage.push("${env.BUILD_NUMBER}")
                       dockerImage.push("latest")
