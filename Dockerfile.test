@@ -10,3 +10,4 @@ RUN ["npm", "test"]
 FROM scratch as export-test-results
 
 COPY --from=test /usr/src/app/coverage/unit-results.xml .
+COPY --from=test /usr/src/app/coverage/lcov.info .
