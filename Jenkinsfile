@@ -35,7 +35,7 @@ pipeline {
                script {
                     final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status'", returnStdout: true).trim()
                     echo response
-                    if (response == 'OK') {
+                    if (response == '"OK"') {
                        echo "Pipeline aboratdo por fallos de calidad: "+ response
                     } else if (!response.equals('OK')) {
                        echo "Pipeline contnua por fallos de calidad: "+ response
@@ -59,7 +59,7 @@ pipeline {
                echo 'Pushing docker image'
                script {
                   sh'docker logout'
-                  docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                  docker.withRegistry('', 'docker-hub-credentials') {
                       dockerImage.push("${env.BUILD_NUMBER}")
                       dockerImage.push("latest")
                   }
