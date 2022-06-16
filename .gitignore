@@ -16,6 +16,8 @@ tmp
 # Optional npm cache directory
 .npm
 
+coverage/*
+
 #Build
 scss/main.css
 .nyc_output/*
