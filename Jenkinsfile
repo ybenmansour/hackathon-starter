@@ -33,7 +33,7 @@ pipeline {
                echo 'Sonar Scanner'
              
                script {
-                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status'", returnStdout: true).trim()
                     echo response
                     if (response == 'OK') {
                        echo "Pipeline aboratdo por fallos de calidad: "+ response
