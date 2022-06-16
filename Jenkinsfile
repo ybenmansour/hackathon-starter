@@ -64,6 +64,27 @@ pipeline {
             }
        }
        
+       stage('Build') {
+            steps {
+               echo 'Building docker image'
+                script {
+                  dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
+               }
+            }
+        }
+        
+       stage('Push image') {
+            steps {
+               echo 'Pushing docker image'
+               script {
+                  docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                      dockerImage.push("${env.BUILD_NUMBER}")
+                      dockerImage.push("latest")
+                  }
+               }
+            }
+        }
+       
     }   
     
     post {
