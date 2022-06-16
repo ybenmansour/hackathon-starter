@@ -37,7 +37,7 @@ pipeline {
                     echo response
                     if (response != 'OK') {
                        echo "Pipeline aboratdo por fallos de calidad: "+ response
-                    } else if (response.equales('OK') {
+                    } else if (response.equales('OK')) {
                        echo "Pipeline contnua por fallos de calidad: "+ response
                     }
                 }
