@@ -85,6 +85,17 @@ pipeline {
             }
         }
        
+       stage('Deploy'){
+            steps {
+                 sh '''
+                  kubectl apply -f deployment/deployment-mongo.yml
+                  kubectl apply -f deployment/mongo-service.yml
+                  kubectl apply -f deployment/deployment-web.yml
+                  kubectl apply -f deployment/load-balancer-service.yml
+                 '''
+            }
+        }
+       
     }   
     
     post {
