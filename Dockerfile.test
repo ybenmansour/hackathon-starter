@@ -1,7 +1,12 @@
-FROM node:16-buster
+FROM node:16-buster as test
 RUN apt-get install libcurl4
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --ci
 COPY . .
 RUN ["npm", "test"]
+
+
+FROM scratch as export-test-results
+
+COPY --from=test /usr/src/app/coverage/unit-results.xml .
