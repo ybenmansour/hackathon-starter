@@ -114,7 +114,3 @@ describe('GET /random-url', () => {
   });
 });
 });
-
-after(() => {
-	mongoServer.disconnect();
-});
