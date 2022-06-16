@@ -20,6 +20,9 @@ spec:
         app: web
     spec:
       containers:
+      - env:
+         - name: MONGO_DB_URL
+           value: mongodb://nodejs-kubernetes-mongodb:27017/nodejs-kubernetes   
       - image: ybenmansour/hackathon-starter:latest
         imagePullPolicy: Always
         name: hackathon-starter
