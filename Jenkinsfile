@@ -22,7 +22,7 @@ pipeline {
             steps {
                echo 'Unit tests'
                script {
-                    dockerImage = docker.build(imagename, "-f Dockerfile.test .")
+                    sh 'DOCKER_BUILDKIT=1 docker build --target export-test-results -f Dockerfile.test --output type=local,dest=results .' 
                }
             }
        }
