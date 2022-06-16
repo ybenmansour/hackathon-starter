@@ -1,8 +1,7 @@
-FROM node:lts-gallium
+FROM node:16-buster
+RUN apt-get install libcurl4
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci
+RUN npm install --ci
 COPY . .
-EXPOSE 8080
-ENV MONGOMS_DEBUG=1
 RUN ["npm", "test"]
