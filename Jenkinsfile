@@ -35,9 +35,9 @@ pipeline {
                script {
                     final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
                     echo response
-                    if (response != 'OK') {
+                    if (response == 'OK') {
                        echo "Pipeline aboratdo por fallos de calidad: "+ response
-                    } else if (response.equales('OK')) {
+                    } else if (!response.equals('OK')) {
                        echo "Pipeline contnua por fallos de calidad: "+ response
                     }
                 }
