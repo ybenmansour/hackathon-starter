@@ -1,13 +1,13 @@
 const request = require('supertest');
-
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-(async () => {
-const mongoServer = await MongoMemoryServer.create();
-const mockMongoDBUri = await mongoServer.getUri();
-process.env.MONGODB_URI=mockMongoDBUri;
-
-const app = require('../app.js');
+const mongoServer = '';
+before(async () => {
+  const mongoServer = await  MongoMemoryServer.create();
+  const mockMongoDBUri = await  mongoServer.getUri();
+  process.env.MONGODB_URI=mockMongoDBUri;
+  
+  const app = require('../app.js');
 
 describe('GET /', () => {
   it('should return 200 OK', (done) => {
@@ -15,7 +15,8 @@ describe('GET /', () => {
       .get('/')
       .expect(200, done);
   });
-});
+})
+
 
 describe('GET /login', () => {
   it('should return 200 OK', (done) => {
@@ -112,5 +113,8 @@ describe('GET /random-url', () => {
       .expect(404, done);
   });
 });
+});
 
-})();
+after(() => {
+	mongoServer.disconnect();
+});
