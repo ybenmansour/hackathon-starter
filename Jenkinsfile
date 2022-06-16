@@ -28,6 +28,42 @@ pipeline {
             }
        }
        
+       stage('Sonar Scanner') {
+            steps {
+               echo 'Sonar Scanner'
+               sh '''
+                  docker network create scanner-sq-network
+                  docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
+               '''
+               
+               timeout(time: 2, unit: 'MINUTES') {
+                  waitUntil {
+                     script {
+                           sleep 20
+                           final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/system/health | jq -r  '.health'", returnStdout: true).trim()
+                           echo response
+                           return (response == 'GREEN');
+                     }
+                  }
+               }
+               
+               withSonarQubeEnv('SonarQube') {
+                  sh "${scannerHome}/bin/sonar-scanner -X"
+               }
+               
+               sh '''
+                  sleep 10
+               '''
+               script {
+                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
+                    echo response
+                    if (response != 'OK') {
+                       error "Pipeline aboratdo por fallos de calidad: "+ response
+                    }
+                }
+            }
+       }
+       
     }   
     
     post {
