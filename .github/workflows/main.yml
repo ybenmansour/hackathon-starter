@@ -43,8 +43,10 @@ jobs:
   
       - name: Execute jenkins pipeline
         run: |
-          while [[ $(curl -s -w "%{http_code}" -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://35.180.87.237:8080/ -o /dev/null) != "200" ]]; do
+          wait_seconds=0
+          while [[ $(curl -s -w "%{http_code}" http://35.180.87.237:8080/ -o /dev/null) != "200" && $wait_seconds  -le 20 ]]; do
             sleep 5
+            ((wait_seconds+=5))
           done
           echo "jenkins up"
         
