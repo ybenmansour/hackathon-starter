@@ -63,5 +63,8 @@ jobs:
           chmod +x ./launch-jenkins-job.sh 
           ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} $var_ec2_jenkins_server
             
-      - run: echo "Finalizando el pipeline" 
+      # Destroy infraestructure
+      - name: Destroy Terraform 
+        working-directory: terraform
+        run: terraform destroy -auto-approved
       
