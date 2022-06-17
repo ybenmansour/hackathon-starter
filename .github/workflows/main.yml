@@ -41,24 +41,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   
-      # Initialize Terraform  
-      - name: Initialize Terraform
-        run: terraform init
-        
-      # Generates an execution plan for Terraform  
-      - name: Plan Terraform
-        continue-on-error: true
-        run: terraform plan -no-color
-      
-      # Apply execution plan for Terraform  
-      - name: Apply Terraform 
-        run: terraform apply -auto-approve
-              
       - name: Execute jenkins pipeline
         run: |
-          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
-          sleep 20
-          curl -v -curl -sI -u ${{ format('{0}:{1}', secrets.JENKINS_USER, secrets.JENKINS_PASS) }} http://$var_ec2_jenkins_server:8080/job/tfm-nodejs-app-pipeline/build?token=TFM_CICD 
+          while [[ $(curl -s -w "%{http_code}" http://35.180.87.237:8080/ -o /dev/null) != "200" ]]; do
+            sleep 5
+          done
+          echo "jenkins up"
         
       - run: echo "Finalizando el pipeline"
       
