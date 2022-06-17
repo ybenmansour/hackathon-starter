@@ -42,9 +42,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   
       - name: Execute jenkins pipeline
+        working-directory: scripts
         run: |
-          chmod +x ../scripts/launch-jenkins-job.sh 
-          sh ../scripts/launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} 35.180.87.237
+          chmod +x ./launch-jenkins-job.sh 
+          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} 35.180.87.237
             
       - run: echo "Finalizando el pipeline" 
       
