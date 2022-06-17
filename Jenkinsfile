@@ -18,7 +18,7 @@ pipeline {
             }
         }
         
-        /*stage('Unit tests') {
+       stage('Unit tests') {
             steps {
                echo 'Unit tests'
                script {
@@ -26,14 +26,38 @@ pipeline {
                     archiveArtifacts artifacts: 'results/*.xml'
                }
             }
-       }*/
+       }
        
        stage('Sonar Scanner') {
             steps {
                echo 'Sonar Scanner'
+               
+               sh '''
+                  docker network create scanner-sq-network
+                  docker run -d --rm --network scanner-sq-network --name sonarqube -p 9000:9000 sonarqube
+               '''
+               
+               timeout(time: 2, unit: 'MINUTES') {
+                  waitUntil {
+                     script {
+                           sleep 20
+                           final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/system/health | jq -r  '.health'", returnStdout: true).trim()
+                           echo response
+                           return (response == 'GREEN');
+                     }
+                  }
+               }
+               
+               withSonarQubeEnv('SonarQube') {
+                  sh "${scannerHome}/bin/sonar-scanner -X"
+               }
+               
+               sh '''
+                  sleep 10
+               '''
              
                script {
-                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status'", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s -u admin:admin ${sonarQubeURL}api/qualitygates/project_status?projectKey=hackathon-starter | jq '.projectStatus.status' | tr - d", returnStdout: true).trim()
                     echo response
                     if (response != '"OK"') {
                        error "Pipeline aboratdo por fallos de calidad: "+ response
@@ -67,12 +91,7 @@ pipeline {
        
        stage('Deploy'){
             steps {
-                 sh '''
-                  kubectl apply -f deployment/deployment-mongo.yml
-                  kubectl apply -f deployment/mongo-service.yml
-                  kubectl apply -f deployment/deployment-web.yml
-                  kubectl apply -f deployment/load-balancer-service.yml
-                 '''
+                 sh 'kubectl apply -f deployment/'
             }
         }
        
@@ -81,9 +100,9 @@ pipeline {
     post {
         success {
                echo 'Shutdown EC2 istance'
-               /*script {
+               script {
                   sh 'sudo shutdown -h now'
-               }*/
+               }
         }
         
         failure {
@@ -91,7 +110,6 @@ pipeline {
             mail to: "youssefbenmansour@gmail.com",
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
             body: "${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
-            echo 'Shutdown EC2 istance'
         }
     }
 }
