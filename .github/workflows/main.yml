@@ -43,7 +43,7 @@ jobs:
   
       - name: Execute jenkins pipeline
         run: |
-          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} 35.180.87.237
+          chmod +x ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} 35.180.87.237
 
             
       - run: echo "Finalizando el pipeline" 
