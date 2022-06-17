@@ -11,4 +11,19 @@ while [[ $(curl -s -u $1:$2 -w "%{http_code}" http://$3:8080/ -o /dev/null) != "
       exit 1;
    fi 
 done
-#curl -sI -u $1:$2 http://$3:8080/job/tfm-nodejs-app-pipeline/build?token=TFM_CICD 
+
+jobname="tfm-nodejs-app-pipeline"
+echo "Se ejecuta el pipeline: " $jobname
+curl -sI -u $1:$2 http://$3:8080/job/$jobname/build?token=TFM_CICD 
+
+while [[ $(curl -s -u $1:$2 http://$3:8080/job/tfm-nodejs-app-pipeline/lastBuild/api/json  | jq -r '.building') == true ]]; do
+   sleep 30
+done
+
+BUILD_STATUS=$(curl -k -u $1:$2 --silent http://$3:8080/job/$jobname/lastBuild/api/json | jq -r '.result')
+if [[ $BUILD_STATUS == "SUCCESS" ]]; then
+   echo "el job ${jobname} se ha ejecutado correctamente."
+else 
+   echo "el resultado de la ejecución del job ${jobname} es ${BUILD_STATUS}"
+   echo "http://$3:8080/job/${jobname}/lastBuild/consoleText"
+fi
