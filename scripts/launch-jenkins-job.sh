@@ -19,10 +19,15 @@ echo "Se ejecuta el pipeline: " $jobname
 curl -sI -u $1:$2 $url/job/$jobname/build?token=TFM_CICD 
 
 sleep 30
-
+wait_seconds=0
 while [[ $(curl -s -u $1:$2 $url/job/tfm-nodejs-app-pipeline/lastBuild/api/json  | jq -r '.building') == true ]]; do
    echo "ejecutando el pipeline ${jobname} ..."
    sleep 30
+   ((wait_seconds+=30))
+   if [[ $wait_seconds  -ge 600  ]]; then
+      echo "Error: no se ha finalizado la ejecución del pipeline de ${jobname} en ${wait_seconds} segundos";
+      exit 1;
+   fi 
 done
 
 BUILD_STATUS=$(curl -k -u $1:$2 $url/job/$jobname/lastBuild/api/json | jq -r '.result')
