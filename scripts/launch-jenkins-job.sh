@@ -2,7 +2,7 @@
 #!/bin/bash
 wait_seconds=0
 
-url=http://$ip:8080
+url=http://$3:8080
 echo "URL " $1:$2 $url
 while [[ $(curl -s -u $1:$2 -w "%{http_code}" $url -o /dev/null) != "200" ]]; do
    sleep 20
