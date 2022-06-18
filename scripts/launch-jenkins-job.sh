@@ -29,7 +29,8 @@ BUILD_STATUS=$(curl -k -u $1:$2 $url/job/$jobname/lastBuild/api/json | jq -r '.r
 if [[ $BUILD_STATUS == "SUCCESS" ]]; then
    echo "el job ${jobname} se ha ejecutado correctamente."
 else 
-   echo "el resultado de la ejecución del job ${jobname} es ${BUILD_STATUS}"
-   echo $(curl -u $1:$2 $url/job/${jobname}/lastBuild/consoleText)
-   exit 1
+   echo "el resultado de la ejecución del job ${jobname} es ${BUILD_STATUS}";
+   response=$(curl -s -u $1:$2 $url/job/${jobname}/lastBuild/consoleText);
+   echo "resultado de la ejeución "$response;
+   exit 1;
 fi
