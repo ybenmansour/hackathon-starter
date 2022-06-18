@@ -62,9 +62,8 @@ jobs:
       - name: Execute jenkins pipeline
         working-directory: scripts
         run: |
-          echo "IP "${{ steps.apply_terraform.outputs.var_ec2_jenkins_server }}
           chmod +x ./launch-jenkins-job.sh 
-          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} ${{ steps.vars.outputs.var_ec2_jenkins_server }}
+          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} ${{ steps.apply_terraform.outputs.var_ec2_jenkins_server }}
             
       # Destroy infraestructure
       - name: Destroy Terraform 
