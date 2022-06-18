@@ -18,7 +18,7 @@ data "aws_security_group" "jenkins_server_group" {
 
 resource "aws_instance" "jenkins_server" {
   ami           = "ami-095f3c8ea0f16631b"
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"
   vpc_security_group_ids = [data.aws_security_group.jenkins_server_group.id]
   #instance_initiated_shutdown_behavior = "terminate"
 
