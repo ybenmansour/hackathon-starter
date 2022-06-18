@@ -69,5 +69,5 @@ jobs:
       - name: Destroy Terraform
         if: always()
         working-directory: terraform
-        run: terraform destroy 
+        run: terraform destroy -auto-approve
       
