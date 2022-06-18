@@ -30,6 +30,6 @@ if [[ $BUILD_STATUS == "SUCCESS" ]]; then
    echo "el job ${jobname} se ha ejecutado correctamente."
 else 
    echo "el resultado de la ejecución del job ${jobname} es ${BUILD_STATUS}"
-   curl -u $1:$2 $url/job/${jobname}/lastBuild/consoleText  >> $GITHUB_STEP_SUMMARY
+   echo $(curl -u $1:$2 $url/job/${jobname}/lastBuild/consoleText)
    exit 1
 fi
