@@ -20,7 +20,6 @@ curl -sI -u $1:$2 $url/job/$jobname/build?token=TFM_CICD
 
 sleep 30
 
-echo "building "$(curl -s -u $1:$2 $url/job/tfm-nodejs-app-pipeline/lastBuild/api/json  | jq -r '.building')
 while [[ $(curl -s -u $1:$2 $url/job/tfm-nodejs-app-pipeline/lastBuild/api/json  | jq -r '.building') == true ]]; do
    echo "ejecutando el pipeline ${jobname} ..."
    sleep 30
