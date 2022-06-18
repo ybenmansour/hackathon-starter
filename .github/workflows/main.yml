@@ -53,7 +53,6 @@ jobs:
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
         run: terraform apply -auto-approve
-          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
       
       #execute script 
       - name: Execute jenkins pipeline
