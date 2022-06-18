@@ -3,12 +3,11 @@
 wait_seconds=0
 
 url=http://$ip:8080
-echo "URL " $1:$2 http://$ip:8080/
-
+echo "URL " $1:$2 $url
 while [[ $(curl -s -u $1:$2 -w "%{http_code}" $url -o /dev/null) != "200" ]]; do
-   sleep 5
-   ((wait_seconds+=5))
-   if [[ $wait_seconds  -ge 60  ]]; then
+   sleep 20
+   ((wait_seconds+=20))
+   if [[ $wait_seconds  -ge 120  ]]; then
       echo "Error: no se ha podido iniciar el servidor jenkins después de ${wait_seconds} segundos";
       exit 1;
    fi 
