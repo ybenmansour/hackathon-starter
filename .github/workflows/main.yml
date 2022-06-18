@@ -67,7 +67,7 @@ jobs:
             
       # Destroy infraestructure
       - name: Destroy Terraform
-        if: always()
+        #if: always()
         working-directory: terraform
         run: terraform destroy -auto-approve
       
