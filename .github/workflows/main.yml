@@ -48,7 +48,7 @@ jobs:
       # Generates an execution plan for Terraform  
       - name: Plan Terraform
         continue-on-error: true
-        run: terraform plan -no-color#
+        run: terraform plan -no-color
       
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
