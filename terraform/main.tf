@@ -12,14 +12,22 @@ provider "aws" {
   region = "eu-west-3"
 }
 
-data "aws_security_group" "jenkins_server_group" {
-  id ="sg-090df9b3d5604bae1"
+resource "aws_security_group" "sg_jenkins_server" {
+  name        = "allow_jenkins_connection"
+  description = "allow_jenkins_connection 8080"
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_instance" "jenkins_server" {
   ami           = "ami-095f3c8ea0f16631b"
   instance_type = "t2.medium"
-  vpc_security_group_ids = [data.aws_security_group.jenkins_server_group.id]
+  vpc_security_group_ids = [aws_security_group.sg_jenkins_server.id]
   #instance_initiated_shutdown_behavior = "terminate"
 
 
