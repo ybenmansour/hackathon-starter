@@ -66,7 +66,8 @@ jobs:
           ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} ${{ steps.apply_terraform.outputs.var_ec2_jenkins_server }}
             
       # Destroy infraestructure
-      - name: Destroy Terraform 
+      - name: Destroy Terraform
+        if: always()
         working-directory: terraform
-        run: terraform destroy -auto-approved
+        run: terraform destroy 
       
