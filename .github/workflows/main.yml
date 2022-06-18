@@ -54,15 +54,16 @@ jobs:
       - name: Apply Terraform 
         run: |
           terraform apply -auto-approve
-          var_ec2_jenkins_server=$(terraform output --raw ec2_jenkins_server)
+          echo "::set-output name=var_ec2_jenkins_server::$(terraform output --raw ec2_jenkins_server)"
           echo "ip del servidor "$var_ec2_jenkins_server
       
       #execute script 
       - name: Execute jenkins pipeline
         working-directory: scripts
         run: |
+          echo "IP "${{ steps.vars.outputs.var_ec2_jenkins_server }}
           chmod +x ./launch-jenkins-job.sh 
-          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} $var_ec2_jenkins_server
+          ./launch-jenkins-job.sh ${{ secrets.JENKINS_USER }} ${{ secrets.JENKINS_PASS }} ${{ steps.vars.outputs.var_ec2_jenkins_server }}
             
       # Destroy infraestructure
       - name: Destroy Terraform 
