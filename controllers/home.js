@@ -4,6 +4,6 @@
  */
 exports.index = (req, res) => {
   res.render('home', {
-    title: 'TFM Home'
+    title: 'TFM Home 2'
   });
 };
