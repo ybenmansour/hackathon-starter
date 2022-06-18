@@ -42,21 +42,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
       # Initialize Terraform  
-     # - name: Initialize Terraform
-     #   run: terraform init
+      - name: Initialize Terraform
+        run: terraform init
         
       # Generates an execution plan for Terraform  
-      #- name: Plan Terraform
-       # continue-on-error: true
-       # run: terraform plan -no-color#
+      - name: Plan Terraform
+        continue-on-error: true
+        run: terraform plan -no-color#
       
       # Apply execution plan for Terraform  
       - name: Apply Terraform 
         id: apply_terraform
         run: |
-          #terraform apply -auto-approve
-          #echo "::set-output name=var_ec2_jenkins_server::$(terraform output --raw ec2_jenkins_server)"
-          echo "::set-output name=var_ec2_jenkins_server::35.180.139.91"
+          terraform apply -auto-approve
+          echo "::set-output name=var_ec2_jenkins_server::$(terraform output --raw ec2_jenkins_server)"
           echo "ip del servidor "${{ steps.apply_terraform.outputs.var_ec2_jenkins_server }}
       
       #execute script 
