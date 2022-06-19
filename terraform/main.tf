@@ -39,6 +39,11 @@ resource "aws_instance" "jenkins_server" {
   tags = {
     Name = "Jenkins Instance"
   }
+  
+  root_block_device {
+    volume_size    = 10
+    volume_type    = "gp2"
+  }
 
 
 }
