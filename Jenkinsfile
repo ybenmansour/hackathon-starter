@@ -18,7 +18,7 @@ pipeline {
             }
         }
         
-       stage('Unit tests') {
+      /* stage('Unit tests') {
             steps {
                echo 'Unit tests'
                script {
@@ -64,14 +64,13 @@ pipeline {
                     } 
                 }
             }
-       }
+       }*/
        
        stage('Build') {
             steps {
                echo 'Building docker image'
                 script {
-                  
-                  dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
+                    dockerImage = docker.build(imagename, "-f Dockerfile.prod .")
                }
             }
         }
@@ -80,11 +79,10 @@ pipeline {
             steps {
                echo 'Pushing docker image'
                script {
-                  sh'docker logout'
-                  docker.withRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-                      dockerImage.push("${env.BUILD_NUMBER}")
-                      dockerImage.push("latest")
-                  }
+                    docker.withRegistry('https://673294157311.dkr.ecr.eu-west-3.amazonaws.com/tfm_repo', 'jenkins-aws-credentials') {
+                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push("latest")
+                    }
                }
             }
         }
