@@ -1,7 +1,7 @@
 pipeline {
    
     environment {
-        imagename = "ybenmansour/hackathon-starter"
+        imagename = "hackathon-starter"
         dockerImage = ''
         scannerHome = tool 'SonarScanner'
         sonarQubeURL = "http://localhost:9000/"
