@@ -89,7 +89,8 @@ pipeline {
        
        stage('Deploy'){
             steps {
-                 sh 'kubectl apply -f deployment/'
+                 /*sh 'kubectl apply -f deployment/'*/
+               sh 'kubectl version'
             }
         }
        
