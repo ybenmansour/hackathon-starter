@@ -90,7 +90,7 @@ pipeline {
        stage('Deploy'){
             steps {
                  /*sh 'kubectl apply -f deployment/'*/
-               sh 'kubectl version'
+               sh 'kubectl version --kubeconfig /home/ubuntu/.kube/config'
             }
         }
        
