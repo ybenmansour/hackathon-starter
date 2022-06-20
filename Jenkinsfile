@@ -90,7 +90,7 @@ pipeline {
        stage('Deploy'){
             steps {
                  /*sh 'kubectl apply -f deployment/'*/
-               sh 'kubectl version --kubeconfig ./.kube/config'
+               sh 'kubectl version --kubeconfig  /var/lib/jenkins/.kube/config'
             }
         }
        
