@@ -66,7 +66,7 @@ pipeline {
             }
        }*/
        
-       stage('Build') {
+       /*stage('Build') {
             steps {
                echo 'Building docker image'
                 script {
@@ -85,7 +85,7 @@ pipeline {
                     }
                }
             }
-        }
+        }*/
        
        stage('Deploy'){
             steps {
