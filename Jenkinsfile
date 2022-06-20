@@ -79,7 +79,9 @@ pipeline {
             steps {
                echo 'Pushing docker image'
                script {
-                    docker.withRegistry('https://673294157311.dkr.ecr.eu-west-3.amazonaws.com/tfm_repo', 'jenkins-aws-credentials') {
+                     withAWS(credentials: 'my_credentials'){
+                     }
+                    docker.withRegistry('https://673294157311.dkr.ecr.eu-west-3.amazonaws.com/tfm_repo', 'ecr:eu-west-3:jenkins-aws-credentials') {
                         dockerImage.push("${env.BUILD_NUMBER}")
                         dockerImage.push("latest")
                     }
