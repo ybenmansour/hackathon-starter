@@ -25,12 +25,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    name: nodejs-kubernetes-mongodb
   name: nodejs-kubernetes-mongodb
 spec:
+  selector:
+    app: mongo
   ports:
     - port: 27017
-      targetPort: 27017
-  selector:
-    name: mongo
+      targetPort: 27017   
