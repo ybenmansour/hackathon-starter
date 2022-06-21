@@ -66,7 +66,7 @@ pipeline {
             }
        }*/
        
-      /* stage('Build') {
+      /*stage('Build') {
             steps {
                echo 'Building docker image'
                 script {
@@ -89,8 +89,7 @@ pipeline {
        
        stage('Deploy'){
             steps {
-              /* sh 'kubectl apply -f deployment/'*/
-               sh 'kubectl get all'
+               sh 'kubectl apply -f deployment/'
             }
         }
        
@@ -98,7 +97,7 @@ pipeline {
     
     post {
         success {
-               echo "enkins Build ${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
+               echo "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}"
         }
         
         failure {
