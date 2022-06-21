@@ -98,7 +98,7 @@ pipeline {
     
     post {
         success {
-               echo ${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}
+               echo "currentBuild.currentResult: currentBuild.projectName Build Number: currentBuild.number"
         }
         
         failure {
