@@ -23,9 +23,22 @@ spec:
       - env:
          - name: MONGO_DB_URL
            value: mongodb://nodejs-kubernetes-mongodb:27017/nodejs-kubernetes   
-      - image: ybenmansour/hackathon-starter:latest
+      - image: https://673294157311.dkr.ecr.eu-west-3.amazonaws.com/hackathon-starter
         imagePullPolicy: Always
         name: hackathon-starter
         ports:
         - containerPort: 8080
           protocol: TCP
+---         
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  type: LoadBalancer
+  ports:
+   -  protocol: TCP
+      port: 80
+      targetPort: 8080        
