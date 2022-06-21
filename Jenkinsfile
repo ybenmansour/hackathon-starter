@@ -18,7 +18,7 @@ pipeline {
             }
         }
         
-      /* stage('Unit tests') {
+        /*stage('Unit tests') {
             steps {
                echo 'Unit tests'
                script {
@@ -66,7 +66,7 @@ pipeline {
             }
        }*/
        
-       /*stage('Build') {
+       stage('Build') {
             steps {
                echo 'Building docker image'
                 script {
@@ -85,12 +85,11 @@ pipeline {
                     }
                }
             }
-        }*/
+        }
        
        stage('Deploy'){
             steps {
-                 /*sh 'kubectl apply -f deployment/'*/
-               sh 'kubectl version'
+               sh 'kubectl apply -f deployment/'
             }
         }
        
@@ -98,10 +97,7 @@ pipeline {
     
     post {
         success {
-               echo 'Shutdown EC2 istance'
-               script {
-                  sh 'sudo shutdown -h now'
-               }
+               echo '${currentBuild.currentResult}: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER}'
         }
         
         failure {
