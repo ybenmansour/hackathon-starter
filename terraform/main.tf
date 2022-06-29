@@ -32,7 +32,7 @@ resource "aws_security_group" "sg_jenkins_server" {
 }
 
 resource "aws_instance" "jenkins_server" {
-  ami           = "ami-087ab2502b7003684"
+  ami           = "ami-0deaa5aad39b71109"
   instance_type = "t2.medium"
   vpc_security_group_ids = [aws_security_group.sg_jenkins_server.id]
   #instance_initiated_shutdown_behavior = "terminate"
