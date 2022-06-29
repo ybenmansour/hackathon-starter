@@ -16,7 +16,7 @@ done
 
 jobname="tfm-nodejs-app-pipeline"
 echo "Se ejecuta el pipeline: " $jobname
-curl -sI -u $1:$2 $url/job/$jobname/build?token=TFM_CICD 
+curl -sI -u $1:$2 "$url/job/$jobname/buildWithParameters?token=TFM_CICD&counter=$4"
 
 sleep 30
 wait_seconds=0
