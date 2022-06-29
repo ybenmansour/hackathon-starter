@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: 673294157311.dkr.ecr.eu-west-3.amazonaws.com/hackathon-starte:latest
+        image: 673294157311.dkr.ecr.eu-west-3.amazonaws.com/hackathon-starter:latest
         imagePullPolicy: Always
         env:
          - name: MONGODB_URI
