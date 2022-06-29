@@ -11,7 +11,7 @@ pipeline {
     
     stages {
         
-       /*stage('Clone repository') {
+       stage('Clone repository') {
             steps {
                 echo 'Cloning repository'
                 git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
@@ -85,7 +85,7 @@ pipeline {
                     }
                }
             }
-        }*/
+        }
        
        stage('Deploy'){
             steps {
