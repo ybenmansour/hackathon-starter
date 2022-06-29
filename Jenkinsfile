@@ -17,7 +17,7 @@ pipeline {
             }
        }
         
-       /*stage('Clone repository') {
+       stage('Clone repository') {
             steps {
                 echo 'Cloning repository'
                 git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
@@ -83,10 +83,10 @@ pipeline {
         
        stage('Push image') {
             steps {
-               echo 'Pushing docker image'
+               echo "Pushing docker image ${params.counter}"
                script {
                     docker.withRegistry('https://673294157311.dkr.ecr.eu-west-3.amazonaws.com/hackathon-starter', 'ecr:eu-west-3:jenkins-aws-credentials') {
-                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push("${params.counter}")
                         dockerImage.push("latest")
                     }
                }
@@ -97,7 +97,7 @@ pipeline {
             steps {
                sh 'kubectl apply -f deployment/'
             }
-        }*/
+        }
        
     }   
     
