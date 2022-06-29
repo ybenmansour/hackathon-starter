@@ -11,14 +11,14 @@ pipeline {
     
     stages {
         
-       /* stage('Clone repository') {
+       stage('Clone repository') {
             steps {
                 echo 'Cloning repository'
                 git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
             }
-        }*/
+       }
         
-        /*stage('Unit tests') {
+       stage('Unit tests') {
             steps {
                echo 'Unit tests'
                script {
@@ -64,9 +64,9 @@ pipeline {
                     } 
                 }
             }
-       }*/
+       }
        
-      /*stage('Build') {
+      stage('Build') {
             steps {
                echo 'Building docker image'
                 script {
@@ -85,7 +85,7 @@ pipeline {
                     }
                }
             }
-        }*/
+        }
        
        stage('Deploy'){
             steps {
