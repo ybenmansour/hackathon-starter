@@ -13,12 +13,6 @@ pipeline {
        
        stage('Clone repository') {
             steps {
-                echo "parameter isFoo = ${params.counter}" 
-            }
-       }
-        
-       stage('Clone repository') {
-            steps {
                 echo 'Cloning repository'
                 git([url: 'https://github.com/ybenmansour/hackathon-starter.git', branch: 'master', credentialsId: 'ybenmansour-github-user-token'])
             }
